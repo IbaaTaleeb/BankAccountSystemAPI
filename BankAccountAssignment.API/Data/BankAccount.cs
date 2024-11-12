@@ -5,12 +5,10 @@ namespace BankAccountAssignment.API.Data
 {
     public class BankAccount
     {
-        private static int _sequenceCounter = 0;
-
         [Key]
         [Required]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Account number must be a 10-digit unique number")]
-        public string Number { get; private set; }
+        public string Number { get; set; }
 
         [Required]
         [StringLength(35, ErrorMessage = "Holder name cannot exceed 35 characters")]
@@ -36,14 +34,6 @@ namespace BankAccountAssignment.API.Data
         public BankAccount()
         {
             CreationDate = DateTime.Now;
-            Number = GenerateUniqueNumber();
-        }
-
-        private string GenerateUniqueNumber()
-        {
-            var datePart = CreationDate.ToString("yyMMdd");
-            var sequence = (++_sequenceCounter).ToString("D4"); // Ensures 4-digit format with leading zeros
-            return datePart + sequence;
         }
 
         public static ValidationResult ValidateAge(DateTime dateOfBirth, ValidationContext context)

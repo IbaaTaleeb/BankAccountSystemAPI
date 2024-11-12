@@ -23,26 +23,23 @@ namespace BankAccountAssignment.API.Controller
         [HttpPost("OpenAccount")]
         public async Task<ActionResult<BankAccount>> OpenAccount([FromBody] OpenAccountRequest request)
         {
-            var bankAccount = new BankAccount
-            {
+            string newBankAccountNum = await GenerateUniqueNumber();
+            var bankAccount = new BankAccount {
+                Number = newBankAccountNum,
                 HolderName = request.HolderName,
                 AssociatedPhoneNumber = request.AssociatedPhoneNumber,
                 DateOfBirth = request.DateOfBirth
             };
 
             _context.BankAccounts.Add(bankAccount);
-            try
-            {
+            try {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
-            {
-                if (BankAccountExists(bankAccount.Number))
-                {
+            catch (DbUpdateException) {
+                if (BankAccountExists(bankAccount.Number)) {
                     return Conflict("Account number already exists.");
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
@@ -137,5 +134,13 @@ namespace BankAccountAssignment.API.Controller
         {
             return _context.BankAccounts.Any(e => e.Number == accountNumber);
         }
+
+        private async Task<string> GenerateUniqueNumber() {
+            var datePart = DateTime.Today.ToString("yyMMdd");
+            int sequence = await _context.GetBankAccountSeqNumber();
+
+            return datePart + sequence.ToString("D4");
+        }
+
     }
 }
