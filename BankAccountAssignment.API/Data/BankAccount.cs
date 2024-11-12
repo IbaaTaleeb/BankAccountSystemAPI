@@ -27,20 +27,12 @@ namespace BankAccountAssignment.API.Data
         public DateTime CreationDate { get; private set; }
 
         [Required]
-        [CustomValidation(typeof(BankAccount), nameof(ValidateAge))]
         public DateTime DateOfBirth { get; set; }
 
         // Constructor
         public BankAccount()
         {
             CreationDate = DateTime.Now;
-        }
-
-        public static ValidationResult ValidateAge(DateTime dateOfBirth, ValidationContext context)
-        {
-            var age = DateTime.Today.Year - dateOfBirth.Year;
-            if (dateOfBirth.Date > DateTime.Today.AddYears(-age)) age--;
-            return age >= 18 ? ValidationResult.Success : new ValidationResult("Account holder must be at least 18 years old");
         }
     }
 }

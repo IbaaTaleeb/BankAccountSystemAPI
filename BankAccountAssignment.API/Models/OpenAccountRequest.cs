@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankAccountAssignment.API.Models.Validations;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BankAccountAssignment.API.Models
@@ -14,6 +15,7 @@ namespace BankAccountAssignment.API.Models
         public string AssociatedPhoneNumber { get; set; }
 
         [Required]
+        [ValidateAge]
         public DateTime DateOfBirth { get; set; }
     }
 
