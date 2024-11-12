@@ -61,8 +61,8 @@ namespace BankAccountAssignment.API.Controller
             return bankAccount;
         }
 
-        // PUT: api/BankAccounts/ModifyAccountDetails/{AccountNumber}
-        [HttpPut("ModifyAccountDetails/{AccountNumber}")]
+        // PATCH: api/BankAccounts/ModifyAccountDetails/{AccountNumber}
+        [HttpPatch("ModifyAccountDetails/{AccountNumber}")]
         public async Task<IActionResult> ModifyAccountDetails(string AccountNumber, [FromBody] ModifyAccountDetailsRequest request)
         {
             var bankAccount = await _context.BankAccounts.FindAsync(AccountNumber);
